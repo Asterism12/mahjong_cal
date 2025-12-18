@@ -15,10 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const loseInputs = document.querySelectorAll('.lose-input');
     const jinInputs = document.querySelectorAll('.jin-input');
     const resetBtn = document.getElementById('reset-btn');
+    const saveNextBtn = document.getElementById('save-next-btn');
+    const deleteLastBtn = document.getElementById('delete-last-btn');
+    const clearHistoryBtn = document.getElementById('clear-history-btn');
     const playerCards = document.querySelectorAll('.player-card');
 
+    // 历史对局数据
+    let gameHistory = [];
+    
+    // 初始化：从 localStorage 加载历史数据
+    loadGameHistory();
+    
     // 初始化状态
     updateWinnerState();
+    updateTotalScores();
 
     // 监听赢家选择变化
     winnerRadios.forEach(radio => {
@@ -42,6 +52,21 @@ document.addEventListener('DOMContentLoaded', () => {
         loseInputs.forEach(input => input.value = '');
         jinInputs.forEach(input => input.value = '');
         calculateScores();
+    });
+    
+    // 保存并下一局按钮
+    saveNextBtn.addEventListener('click', () => {
+        saveCurrentGame();
+    });
+    
+    // 删除最后一局按钮
+    deleteLastBtn.addEventListener('click', () => {
+        deleteLastGame();
+    });
+    
+    // 清除历史对局按钮
+    clearHistoryBtn.addEventListener('click', () => {
+        clearGameHistory();
     });
 
     function updateWinnerState() {
@@ -135,6 +160,144 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (score < 0) {
                 scoreSpan.classList.add('negative');
             }
+        }
+    }
+    
+    // 加载历史对局数据
+    function loadGameHistory() {
+        const saved = localStorage.getItem('mahjongGameHistory');
+        if (saved) {
+            try {
+                gameHistory = JSON.parse(saved);
+            } catch (e) {
+                console.error('加载历史数据失败:', e);
+                gameHistory = [];
+            }
+        }
+    }
+    
+    // 保存历史对局数据到 localStorage
+    function saveGameHistory() {
+        localStorage.setItem('mahjongGameHistory', JSON.stringify(gameHistory));
+    }
+    
+    // 更新累计得分显示
+    function updateTotalScores() {
+        const totalScores = [0, 0, 0, 0];
+        
+        // 累加历史对局的得分
+        gameHistory.forEach(game => {
+            for (let i = 0; i < 4; i++) {
+                totalScores[i] += game.scores[i];
+            }
+        });
+        
+        // 更新UI显示
+        for (let i = 0; i < 4; i++) {
+            const totalScoreSpan = document.getElementById(`total-score-${i}`);
+            const score = totalScores[i];
+            
+            totalScoreSpan.textContent = score > 0 ? `+${score}` : score;
+            
+            // 颜色样式
+            totalScoreSpan.className = 'total-score';
+            if (score > 0) {
+                totalScoreSpan.classList.add('positive');
+            } else if (score < 0) {
+                totalScoreSpan.classList.add('negative');
+            }
+        }
+    }
+    
+    // 保存当前对局并开始下一局
+    function saveCurrentGame() {
+        const winnerIndex = getWinnerIndex();
+        const scores = [0, 0, 0, 0];
+        
+        // 重新计算当前得分（复制calculateScores的逻辑）
+        let totalLost = 0;
+        for (let i = 0; i < 4; i++) {
+            if (i !== winnerIndex) {
+                const loseInput = document.querySelector(`.lose-input[data-index="${i}"]`);
+                const lostScore = parseInt(loseInput.value) || 0;
+                scores[i] -= lostScore;
+                totalLost += lostScore;
+            }
+        }
+        scores[winnerIndex] += totalLost;
+        
+        const jinValues = [];
+        for (let i = 0; i < 4; i++) {
+            const jinInput = document.querySelector(`.jin-input[data-index="${i}"]`);
+            jinValues[i] = parseInt(jinInput.value) || 0;
+        }
+        
+        for (let i = 0; i < 4; i++) {
+            const myJin = jinValues[i];
+            if (myJin > 0) {
+                scores[i] += (3 * myJin);
+                for (let j = 0; j < 4; j++) {
+                    if (i !== j) {
+                        scores[j] -= myJin;
+                    }
+                }
+            }
+        }
+        
+        // 检查是否所有得分都是0（没有输入任何数据）
+        const hasData = scores.some(score => score !== 0);
+        if (!hasData) {
+            alert('请先输入得分数据');
+            return;
+        }
+        
+        // 保存当前对局到历史记录
+        gameHistory.push({
+            scores: scores,
+            timestamp: new Date().toISOString()
+        });
+        
+        // 保存到 localStorage
+        saveGameHistory();
+        
+        // 更新累计得分
+        updateTotalScores();
+        
+        // 重置当前输入
+        loseInputs.forEach(input => input.value = '');
+        jinInputs.forEach(input => input.value = '');
+        calculateScores();
+        
+        alert(`已保存第 ${gameHistory.length} 局`);
+    }
+    
+    // 删除最后一局
+    function deleteLastGame() {
+        if (gameHistory.length === 0) {
+            alert('没有历史对局可以删除');
+            return;
+        }
+        
+        if (confirm(`确定要删除第 ${gameHistory.length} 局吗？`)) {
+            gameHistory.pop();
+            saveGameHistory();
+            updateTotalScores();
+            alert('已删除最后一局');
+        }
+    }
+    
+    // 清除所有历史对局
+    function clearGameHistory() {
+        if (gameHistory.length === 0) {
+            alert('没有历史对局');
+            return;
+        }
+        
+        if (confirm(`确定要清除所有 ${gameHistory.length} 局历史记录吗？`)) {
+            gameHistory = [];
+            saveGameHistory();
+            updateTotalScores();
+            alert('已清除所有历史对局');
         }
     }
 });
