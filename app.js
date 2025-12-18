@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 赢家得分
         scores[winnerIndex] += totalLost;
 
-        // 2. 计算筋数分
-        // 规则：每有1个“筋数”，自己从其他三名玩家各获取1分。
+        // 2. 计算精数分
+        // 规则：每有1个“精数”，自己从其他三名玩家各获取1分。
         // 即：自己 +3分，其他人各 -1分。
         
         const jinValues = [];
@@ -101,14 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
             jinValues[i] = parseInt(jinInput.value) || 0;
         }
 
-        // 计算筋数对每个人的影响
+        // 计算精数对每个人的影响
         for (let i = 0; i < 4; i++) {
             const myJin = jinValues[i];
             if (myJin > 0) {
-                // 自己加分 (3 * 筋数)
+                // 自己加分 (3 * 精数)
                 scores[i] += (3 * myJin);
                 
-                // 其他人减分 (1 * 筋数)
+                // 其他人减分 (1 * 精数)
                 for (let j = 0; j < 4; j++) {
                     if (i !== j) {
                         scores[j] -= myJin;
