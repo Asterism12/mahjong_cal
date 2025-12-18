@@ -1,0 +1,16 @@
+{
+  "name": "麻将得分计算器",
+  "short_name": "麻将计算",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#2c3e50",
+  "theme_color": "#2c3e50",
+  "description": "一个简单的麻将得分计算PWA应用",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

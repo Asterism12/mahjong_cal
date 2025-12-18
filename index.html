@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麻将得分计算器</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <header>
+        <h1>麻将得分计算器</h1>
+    </header>
+
+    <main id="app">
+        <div class="players-container">
+            <!-- 玩家 1 -->
+            <div class="player-card" id="player-0">
+                <div class="player-header">
+                    <span class="player-name">玩家 1</span>
+                    <label class="winner-select">
+                        <input type="radio" name="winner" value="0" checked>
+                        <span>赢家</span>
+                    </label>
+                </div>
+                <div class="input-group lose-score-group">
+                    <label>输分:</label>
+                    <input type="number" class="lose-input" data-index="0" placeholder="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label>筋数:</label>
+                    <input type="number" class="jin-input" data-index="0" placeholder="0" min="0">
+                </div>
+                <div class="score-display">
+                    得分: <span class="current-score" id="score-0">0</span>
+                </div>
+            </div>
+
+            <!-- 玩家 2 -->
+            <div class="player-card" id="player-1">
+                <div class="player-header">
+                    <span class="player-name">玩家 2</span>
+                    <label class="winner-select">
+                        <input type="radio" name="winner" value="1">
+                        <span>赢家</span>
+                    </label>
+                </div>
+                <div class="input-group lose-score-group">
+                    <label>输分:</label>
+                    <input type="number" class="lose-input" data-index="1" placeholder="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label>筋数:</label>
+                    <input type="number" class="jin-input" data-index="1" placeholder="0" min="0">
+                </div>
+                <div class="score-display">
+                    得分: <span class="current-score" id="score-1">0</span>
+                </div>
+            </div>
+
+            <!-- 玩家 3 -->
+            <div class="player-card" id="player-2">
+                <div class="player-header">
+                    <span class="player-name">玩家 3</span>
+                    <label class="winner-select">
+                        <input type="radio" name="winner" value="2">
+                        <span>赢家</span>
+                    </label>
+                </div>
+                <div class="input-group lose-score-group">
+                    <label>输分:</label>
+                    <input type="number" class="lose-input" data-index="2" placeholder="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label>筋数:</label>
+                    <input type="number" class="jin-input" data-index="2" placeholder="0" min="0">
+                </div>
+                <div class="score-display">
+                    得分: <span class="current-score" id="score-2">0</span>
+                </div>
+            </div>
+
+            <!-- 玩家 4 -->
+            <div class="player-card" id="player-3">
+                <div class="player-header">
+                    <span class="player-name">玩家 4</span>
+                    <label class="winner-select">
+                        <input type="radio" name="winner" value="3">
+                        <span>赢家</span>
+                    </label>
+                </div>
+                <div class="input-group lose-score-group">
+                    <label>输分:</label>
+                    <input type="number" class="lose-input" data-index="3" placeholder="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label>筋数:</label>
+                    <input type="number" class="jin-input" data-index="3" placeholder="0" min="0">
+                </div>
+                <div class="score-display">
+                    得分: <span class="current-score" id="score-3">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button id="reset-btn">重置本局</button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

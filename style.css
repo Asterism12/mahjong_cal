@@ -1,0 +1,151 @@
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --winner-color: #f1c40f;
+    --bg-color: #ecf0f1;
+    --card-bg: #ffffff;
+    --text-color: #333;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+main {
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.players-container {
+    display: grid;
+    gap: 1rem;
+}
+
+.player-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-left: 5px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.player-card.is-winner {
+    border-left-color: var(--winner-color);
+    background-color: #fffcf0;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.winner-select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.input-group label {
+    width: 60px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* 赢家不需要输入输分，隐藏该输入框 */
+.player-card.is-winner .lose-score-group {
+    display: none;
+}
+
+.score-display {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2rem;
+}
+
+.current-score {
+    color: var(--primary-color);
+}
+
+.current-score.positive {
+    color: #27ae60;
+}
+
+.current-score.negative {
+    color: #c0392b;
+}
+
+.actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 600px) {
+    .players-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
