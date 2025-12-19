@@ -19,7 +19,7 @@
             <!-- 玩家 1 -->
             <div class="player-card" id="player-0">
                 <div class="player-header">
-                    <span class="player-name">玩家 1</span>
+                    <span class="player-name">🀀</span>
                     <label class="winner-select">
                         <input type="radio" name="winner" value="0" checked>
                         <span>赢家</span>
@@ -44,7 +44,7 @@
             <!-- 玩家 2 -->
             <div class="player-card" id="player-1">
                 <div class="player-header">
-                    <span class="player-name">玩家 2</span>
+                    <span class="player-name">🀁</span>
                     <label class="winner-select">
                         <input type="radio" name="winner" value="1">
                         <span>赢家</span>
@@ -69,7 +69,7 @@
             <!-- 玩家 3 -->
             <div class="player-card" id="player-2">
                 <div class="player-header">
-                    <span class="player-name">玩家 3</span>
+                    <span class="player-name">🀂</span>
                     <label class="winner-select">
                         <input type="radio" name="winner" value="2">
                         <span>赢家</span>
@@ -94,7 +94,7 @@
             <!-- 玩家 4 -->
             <div class="player-card" id="player-3">
                 <div class="player-header">
-                    <span class="player-name">玩家 4</span>
+                    <span class="player-name">🀃</span>
                     <label class="winner-select">
                         <input type="radio" name="winner" value="3">
                         <span>赢家</span>
@@ -118,11 +118,17 @@
         </div>
         
         <div class="actions">
-            <button id="save-next-btn">保存并下一局</button>
             <button id="reset-btn">重置本局</button>
+            <button id="save-next-btn">保存并下一局</button>
             <button id="delete-last-btn">删除最后一局</button>
             <button id="clear-history-btn">清除历史对局</button>
+            <button id="view-history-btn">查看历史记录</button>
         </div>
+
+        <section id="history-section" hidden>
+            <h2>历史记录</h2>
+            <pre id="history-output" class="history-output" aria-live="polite">点击“查看历史记录”查看详情</pre>
+        </section>
     </main>
 
     <script src="app.js"></script>

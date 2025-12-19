@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveNextBtn = document.getElementById('save-next-btn');
     const deleteLastBtn = document.getElementById('delete-last-btn');
     const clearHistoryBtn = document.getElementById('clear-history-btn');
+    const viewHistoryBtn = document.getElementById('view-history-btn');
+    const historyOutput = document.getElementById('history-output');
+    const historySection = document.getElementById('history-section');
     const playerCards = document.querySelectorAll('.player-card');
 
     // 历史对局数据
@@ -67,6 +70,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // 清除历史对局按钮
     clearHistoryBtn.addEventListener('click', () => {
         clearGameHistory();
+    });
+
+    // 查看历史记录按钮
+    viewHistoryBtn.addEventListener('click', () => {
+        if (!historySection) return;
+        if (historySection.hasAttribute('hidden')) {
+            historySection.removeAttribute('hidden');
+            renderHistory();
+        } else {
+            historySection.setAttribute('hidden', '');
+        }
     });
 
     function updateWinnerState() {
@@ -262,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 更新累计得分
         updateTotalScores();
+        refreshHistoryIfVisible();
         
         // 重置当前输入
         loseInputs.forEach(input => input.value = '');
@@ -282,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gameHistory.pop();
             saveGameHistory();
             updateTotalScores();
+            refreshHistoryIfVisible();
             alert('已删除最后一局');
         }
     }
@@ -297,7 +313,58 @@ document.addEventListener('DOMContentLoaded', () => {
             gameHistory = [];
             saveGameHistory();
             updateTotalScores();
+            refreshHistoryIfVisible();
             alert('已清除所有历史对局');
         }
+    }
+
+    // 根据可见性刷新历史输出
+    function refreshHistoryIfVisible() {
+        if (isHistoryVisible()) {
+            renderHistory();
+        }
+    }
+
+    // 判断历史区域是否可见
+    function isHistoryVisible() {
+        return historySection && !historySection.hasAttribute('hidden');
+    }
+
+    // 渲染历史记录 JSON
+    function renderHistory() {
+        if (!historyOutput) return;
+        if (gameHistory.length === 0) {
+            historyOutput.textContent = '暂无历史记录';
+            return;
+        }
+
+        const historyView = gameHistory.map((game, index) => ({
+            index: index + 1,
+            timestamp: game.timestamp,
+            scores: game.scores
+        }));
+
+        const prettyJson = JSON.stringify(historyView, null, 2);
+        historyOutput.innerHTML = syntaxHighlight(prettyJson);
+    }
+
+    // 简易 JSON 语法高亮（保持 JSON 纯文本结构）
+    function syntaxHighlight(jsonString) {
+        const escaped = jsonString
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        return escaped.replace(/("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"\s*:?)|\b(true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g, match => {
+            let cls = 'json-number';
+            if (/^"/.test(match)) {
+                cls = /:$/.test(match) ? 'json-key' : 'json-string';
+            } else if (/true|false/.test(match)) {
+                cls = 'json-boolean';
+            } else if (/null/.test(match)) {
+                cls = 'json-null';
+            }
+            return `<span class="${cls}">${match}</span>`;
+        });
     }
 });

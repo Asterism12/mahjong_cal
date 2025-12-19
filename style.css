@@ -144,6 +144,41 @@ button:active {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
+#history-section {
+    margin-top: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+}
+
+#history-section h2 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+}
+
+.history-output {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow: auto;
+    max-height: 320px;
+    white-space: pre;
+    border: 1px solid #1e293b;
+}
+
+.history-output .json-key { color: #93c5fd; }
+.history-output .json-string { color: #f9a8d4; }
+.history-output .json-number { color: #fbbf24; }
+.history-output .json-boolean { color: #34d399; }
+.history-output .json-null { color: #c084fc; }
+
 @media (min-width: 600px) {
     .players-container {
         grid-template-columns: 1fr 1fr;
