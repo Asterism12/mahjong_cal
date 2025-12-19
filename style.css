@@ -125,7 +125,9 @@ main {
 
 .actions {
     margin-top: 2rem;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 button {
